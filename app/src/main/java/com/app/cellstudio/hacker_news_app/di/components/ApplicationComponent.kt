@@ -3,6 +3,8 @@ package com.app.cellstudio.androidkotlincleanboilerplate.di.components
 import android.content.Context
 import com.app.cellstudio.androidkotlincleanboilerplate.di.modules.ApplicationModule
 import com.app.cellstudio.androidkotlincleanboilerplate.di.modules.MainModule
+import com.app.cellstudio.hacker_news_app.di.components.DetailsComponent
+import com.app.cellstudio.hacker_news_app.di.modules.DetailsModule
 import com.app.cellstudio.hacker_news_app.di.modules.RepositoryModule
 import com.app.cellstudio.hacker_news_app.presentation.BaseApplication
 import dagger.Component
@@ -15,4 +17,5 @@ interface ApplicationComponent {
     fun getApplicationContext(): Context
     fun inject(baseApplication: BaseApplication)
     fun plus(mainModule: MainModule): MainComponent
+    fun plus(detailsModule: DetailsModule): DetailsComponent
 }

@@ -32,6 +32,10 @@ class MainActivity : BaseActivity() {
         return rlMain
     }
 
+    override fun getToolbarTitle(): String {
+        return getString(R.string.app_name)
+    }
+
     override fun onInject() {
         BaseApplication.getInstance()
             .getApplicationComponent()
@@ -57,6 +61,11 @@ class MainActivity : BaseActivity() {
         binding.viewModel = mainViewModel
     }
 
+    override fun onResume() {
+        super.onResume()
+        subscribeSelectedMovie()
+    }
+
     private fun setupMoviesList(topStories: List<Int>) {
         val layoutManager = LinearLayoutManager(this,  LinearLayoutManager.VERTICAL, false)
         rvTopStories.layoutManager = layoutManager
@@ -76,6 +85,18 @@ class MainActivity : BaseActivity() {
         })
         rvTopStories.adapter = topStoriesAdapter
         rvTopStories.isNestedScrollingEnabled = false
+        subscribeSelectedMovie()
+    }
+
+    private fun subscribeSelectedMovie() {
+        if (topStoriesAdapter == null)
+            return
+
+        val disposable = topStoriesAdapter!!.getSelectedModel()
+            .compose(bindToLifecycle())
+            .observeOn(getUiScheduler())
+            .subscribe { selectedMovie -> navigator.navigateToDetails(this, selectedMovie) }
+        compositeDisposable.add(disposable)
     }
 
     companion object {

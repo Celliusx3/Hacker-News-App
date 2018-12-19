@@ -34,7 +34,7 @@ abstract class BaseActivity : RxAppCompatActivity() {
         return scheduler.io()
     }
 
-    protected fun getToolbarTitle(): String {
+    open protected fun getToolbarTitle(): String {
         return ""
     }
 

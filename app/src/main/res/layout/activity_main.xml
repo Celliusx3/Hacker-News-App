@@ -15,11 +15,17 @@
         android:layout_height="match_parent"
         android:id="@+id/rlMain">
 
+        <include
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvTopStories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
+            android:layout_below="@+id/toolbar"
             android:nestedScrollingEnabled="false"
             android:visibility="@{!viewModel.loading? View.VISIBLE : View.GONE}"
             tools:targetApi="lollipop" />
