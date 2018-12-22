@@ -37,7 +37,6 @@ dependencies {
     ext.RX_LIFE_CYCLE_VERSION = '2.2.2'
     ext.PAPER_PARCEL_VERSION = '2.0.1'
     ext.SHIMMER_VERSION = '0.3.0'
-    ext.FLEXBOX_VERSION = '0.3.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -79,7 +78,4 @@ dependencies {
 
     // Shimmer
     implementation "com.facebook.shimmer:shimmer:${SHIMMER_VERSION}"
-
-    // Flexbox - brings the similar capabilities of CSS Flexible Box Layout Module to Android
-    implementation "com.google.android:flexbox:${FLEXBOX_VERSION}"
 }

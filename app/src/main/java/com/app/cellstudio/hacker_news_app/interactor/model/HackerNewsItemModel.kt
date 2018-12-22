@@ -1,11 +1,13 @@
 package com.app.cellstudio.hacker_news_app.interactor.model
 
 import android.net.Uri
+import android.os.Build
+import android.text.Html
 import com.app.cellstudio.hacker_news_app.data.entities.HackerNewsItem
+import com.app.cellstudio.hacker_news_app.interactor.util.StringUtil
 import com.app.cellstudio.hacker_news_app.interactor.util.TimeUtil
 import paperparcel.PaperParcel
 import paperparcel.PaperParcelable
-import java.util.*
 
 
 @PaperParcel
@@ -22,6 +24,7 @@ class HackerNewsItemModel: PaperParcelable {
     var parent_id: Int ? = null
     var story_id: Int ? = null
     var children: List<HackerNewsItemModel> ? = null
+    var isCommentExpands: Boolean = true
 
     fun getDetails(): String {
         val sb = StringBuilder()
@@ -31,11 +34,7 @@ class HackerNewsItemModel: PaperParcelable {
         }
 
         if (created_at_i != null) {
-            val now = System.currentTimeMillis()
             sb.append(" • ").append(TimeUtil.getTimeAgo( created_at_i!! * 1000))
-//            sb.append(" • ").append(DateUtils.getRelativeTimeSpanString(
-//                created_at_i!! * 1000, now,
-//                DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_MONTH).toString())
         }
 
         if (url != null) {
@@ -59,12 +58,36 @@ class HackerNewsItemModel: PaperParcelable {
         return totalComments
     }
 
+    fun getChildrenComments(): Int {
+       return this.children!!.size
+    }
+
     fun getDisplayPoints(): String {
         return this.points.toString()
     }
 
-    fun getDisplayComments(): String {
+    fun getDisplayTotalComments(): String {
         return this.getTotalComments().toString()
+    }
+
+    fun getDisplayChildrenComments(): String {
+        return this.getChildrenComments().toString()
+    }
+
+    fun getDisplayComments(): CharSequence {
+
+        if (this.text != null){
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                StringUtil.removeTraillingWhiteLines(Html.fromHtml(this.text, Html.FROM_HTML_MODE_LEGACY))
+            } else {
+                StringUtil.removeTraillingWhiteLines(Html.fromHtml(this.text))
+            }
+        }
+        return ""
+    }
+
+    fun getDisplayLoadMoreComments(): Boolean {
+        return children != null && children!!.isNotEmpty()
     }
 
     companion object Factory {

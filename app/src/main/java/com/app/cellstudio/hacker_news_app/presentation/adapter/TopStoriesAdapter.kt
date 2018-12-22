@@ -2,7 +2,6 @@ package com.app.cellstudio.hacker_news_app.presentation.adapter
 
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import io.reactivex.subjects.PublishSubject
 class TopStoriesAdapter(private val topStories: MutableList<Int>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var topStoriesData: Array<HackerNewsItemModel?> = arrayOfNulls(topStories.size)
-    private var loading: Boolean = false
     private val selectedModel = PublishSubject.create<HackerNewsItemModel>()
     private var listener: Listener? = null
 
@@ -42,7 +40,7 @@ class TopStoriesAdapter(private val topStories: MutableList<Int>) : RecyclerView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        var viewHolder: RecyclerView.ViewHolder?
+        val viewHolder: RecyclerView.ViewHolder?
         val layoutInflater = LayoutInflater.from(parent.context)
 
         viewHolder = when (viewType) {
@@ -59,18 +57,14 @@ class TopStoriesAdapter(private val topStories: MutableList<Int>) : RecyclerView
     }
 
     override fun onBindViewHolder(baseHolder: RecyclerView.ViewHolder, position: Int) {
-        val pos = baseHolder.adapterPosition
         if (baseHolder is EmptyViewHolder) {
-            Log.d("CallApi", pos.toString())
-            listener?.onFirstVisible(topStories[pos], pos)
+            listener?.onFirstVisible(topStories[position], position)
         } else if (baseHolder is ViewHolder) {
-            if (pos >= 0) {
-                baseHolder.binding.modelId = "No. " + (position + 1).toString()
-                baseHolder.binding.model = topStoriesData[position]
-                baseHolder.binding.setListener {
-                    if (topStoriesData[position] != null) {
-                        selectedModel.onNext(topStoriesData[position]!!)
-                    }
+            baseHolder.binding.modelId = "No. " + (position + 1).toString()
+            baseHolder.binding.model = topStoriesData[position]
+            baseHolder.binding.setListener {
+                if (topStoriesData[position] != null) {
+                    selectedModel.onNext(topStoriesData[position]!!)
                 }
             }
         }
@@ -97,6 +91,13 @@ class TopStoriesAdapter(private val topStories: MutableList<Int>) : RecyclerView
     fun updateViewHolder(position: Int, hackerNewsItemModel: HackerNewsItemModel) {
         topStoriesData[position] = hackerNewsItemModel
         notifyItemChanged(position)
+    }
+
+    fun updateData(models: List<Int>) {
+        this.topStoriesData = arrayOfNulls(models.size)
+        this.topStories.clear()
+        this.topStories.addAll(models)
+        notifyDataSetChanged()
     }
 
     companion object {

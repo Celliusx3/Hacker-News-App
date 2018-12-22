@@ -20,23 +20,21 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvTopStories"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/srlMainContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_below="@+id/toolbar"
-            android:nestedScrollingEnabled="false"
-            android:visibility="@{!viewModel.loading? View.VISIBLE : View.GONE}"
-            tools:targetApi="lollipop" />
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar">
 
-        <ProgressBar
-            android:id="@+id/pbLoading"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_centerInParent="true"
-            android:visibility="@{viewModel.loading? View.VISIBLE : View.GONE}" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvTopStories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:nestedScrollingEnabled="false"
+                tools:targetApi="lollipop" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
 
     </RelativeLayout>
 

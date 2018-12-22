@@ -18,6 +18,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
         android:onClick="@{listener::onClick}"
+        android:foreground="@drawable/selector_ripple"
         android:clickable="true"
         android:focusable="true">
 
@@ -94,7 +95,7 @@
                         android:layout_height = "wrap_content"
                         android:layout_gravity="center_vertical"
                         android:textAlignment="center"
-                        android:text="@{model.displayComments}"
+                        android:text="@{model.displayTotalComments}"
                         android:textColor="@color/grey_600"
                         tools:text = "1087"/>
 

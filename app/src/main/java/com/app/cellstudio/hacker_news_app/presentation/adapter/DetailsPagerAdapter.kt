@@ -27,18 +27,18 @@ class DetailsPagerAdapter(fragmentManager: FragmentManager,
     override fun getItem(position: Int): Fragment? {
         val fragmentPage = fragmentPages[position]
 
-        when (fragmentPage) {
+        return when (fragmentPage) {
             PageModel.ArticlePage -> {
                 if (articlesFragment == null) {
                     articlesFragment = ArticleFragment.newInstance(hackerNewsItemModel.url!!)
                 }
-                return articlesFragment
+                articlesFragment
             }
             else -> {
                 if (commentsFragment == null) {
-                    commentsFragment = CommentsFragment.newInstance()
+                    commentsFragment = CommentsFragment.newInstance(hackerNewsItemModel.children!!)
                 }
-                return commentsFragment
+                commentsFragment
             }
         }
     }

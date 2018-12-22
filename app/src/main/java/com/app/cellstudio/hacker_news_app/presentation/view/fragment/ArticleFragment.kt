@@ -7,6 +7,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.app.cellstudio.hacker_news_app.R
+import com.app.cellstudio.hacker_news_app.presentation.BaseApplication
 import kotlinx.android.synthetic.main.fragment_articles.*
 
 
@@ -19,7 +20,11 @@ class ArticleFragment : BaseFragment() {
         return R.layout.fragment_articles
     }
 
-    override fun onInject() {}
+    override fun onInject() {
+        BaseApplication.getInstance()
+            .getApplicationComponent()
+            .inject(this)
+    }
 
     override fun onBindData(view: View?) {
         super.onBindData(view)
@@ -40,7 +45,7 @@ class ArticleFragment : BaseFragment() {
         wvArticles.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
-                pbArticles.progress = newProgress
+                    pbArticles?.progress = newProgress
             }
         }
 
@@ -48,12 +53,12 @@ class ArticleFragment : BaseFragment() {
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
-                pbArticles.visibility = View.VISIBLE
+                pbArticles?.visibility = View.VISIBLE
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                pbArticles.visibility = View.GONE
+                pbArticles?.visibility = View.GONE
             }
         }
     }
