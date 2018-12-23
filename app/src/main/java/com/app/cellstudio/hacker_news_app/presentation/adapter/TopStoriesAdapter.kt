@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.app.cellstudio.hacker_news_app.R
 import com.app.cellstudio.hacker_news_app.databinding.ListTopStoriesBinding
-import com.app.cellstudio.hacker_news_app.databinding.ListTopStoriesEmptyBinding
 import com.app.cellstudio.hacker_news_app.interactor.model.HackerNewsItemModel
 import io.reactivex.subjects.PublishSubject
 
@@ -28,16 +27,7 @@ class TopStoriesAdapter(private val topStories: MutableList<Int>) : RecyclerView
         }
     }
 
-    class EmptyViewHolder : RecyclerView.ViewHolder {
-
-        lateinit var binding: ListTopStoriesEmptyBinding
-
-        constructor(view: View) : super(view)
-
-        constructor(binding: ListTopStoriesEmptyBinding) : this(binding.root) {
-            this.binding = binding
-        }
-    }
+    class EmptyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val viewHolder: RecyclerView.ViewHolder?
@@ -58,6 +48,7 @@ class TopStoriesAdapter(private val topStories: MutableList<Int>) : RecyclerView
 
     override fun onBindViewHolder(baseHolder: RecyclerView.ViewHolder, position: Int) {
         if (baseHolder is EmptyViewHolder) {
+            // Call API if is empty view holder
             listener?.onFirstVisible(topStories[position], position)
         } else if (baseHolder is ViewHolder) {
             baseHolder.binding.modelId = "No. " + (position + 1).toString()

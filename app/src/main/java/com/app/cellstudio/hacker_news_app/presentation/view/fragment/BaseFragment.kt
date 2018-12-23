@@ -36,10 +36,6 @@ abstract class BaseFragment : RxFragment() {
         return scheduler.io()
     }
 
-    protected fun getTitle(): String {
-        return ""
-    }
-
     fun getCurrentUserVisibleHint(): Observable<Boolean> {
         return currentUserVisibleHint
     }

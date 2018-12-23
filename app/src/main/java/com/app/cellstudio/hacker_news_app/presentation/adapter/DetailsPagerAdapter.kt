@@ -30,13 +30,13 @@ class DetailsPagerAdapter(fragmentManager: FragmentManager,
         return when (fragmentPage) {
             PageModel.ArticlePage -> {
                 if (articlesFragment == null) {
-                    articlesFragment = ArticleFragment.newInstance(hackerNewsItemModel.url!!)
+                    articlesFragment = ArticleFragment.newInstance(hackerNewsItemModel.url)
                 }
                 articlesFragment
             }
             else -> {
                 if (commentsFragment == null) {
-                    commentsFragment = CommentsFragment.newInstance(hackerNewsItemModel.children!!)
+                    commentsFragment = CommentsFragment.newInstance(hackerNewsItemModel.children)
                 }
                 commentsFragment
             }
@@ -49,9 +49,5 @@ class DetailsPagerAdapter(fragmentManager: FragmentManager,
 
     override fun getPageTitle(position: Int): CharSequence? {
         return fragmentPages[position].title
-    }
-
-    fun getPagePositionById(pageId: Int): Int {
-        return fragmentPageIds.indexOf(pageId)
     }
 }

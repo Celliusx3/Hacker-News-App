@@ -20,7 +20,6 @@ class DetailsActivity : BaseActivity() {
     @Inject
     lateinit var detailsViewModel: DetailsViewModel
 
-    private lateinit var fragmentPages: List<PageModel>
     private lateinit var detailsPagerAdapter: DetailsPagerAdapter
     private lateinit var hackerNewsItemModel: HackerNewsItemModel
 
@@ -33,7 +32,7 @@ class DetailsActivity : BaseActivity() {
     }
 
     override fun getToolbarTitle(): String {
-        return "Details"
+        return this.getString(R.string.title_details)
     }
 
     override fun onInject() {
@@ -57,8 +56,7 @@ class DetailsActivity : BaseActivity() {
             .subscribeOn(getIoScheduler())
             .observeOn(getUiScheduler())
             .subscribe {
-                this.fragmentPages = it
-                setupDetailsPagerAdapter(fragmentPages)
+                setupDetailsPagerAdapter(it)
                 setupDetailsTab()
             }
 

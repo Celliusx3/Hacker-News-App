@@ -4,12 +4,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".presentation.view.activity.MainActivity">
 
-    <data>
-        <variable name="viewModel" type="com.app.cellstudio.hacker_news_app.interactor.viewmodel.MainViewModel" />
-
-        <import type="android.view.View" />
-    </data>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

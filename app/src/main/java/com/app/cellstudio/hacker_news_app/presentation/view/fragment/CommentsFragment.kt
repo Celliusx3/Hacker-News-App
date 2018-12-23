@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_comments.*
 
 class CommentsFragment : BaseFragment() {
 
-    private var commentsAdapter: CommentsAdapter? = null
+    private lateinit var commentsAdapter: CommentsAdapter
     private lateinit var comments: List<HackerNewsItemModel>
 
     override fun getLayoutResource(): Int {

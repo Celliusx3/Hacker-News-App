@@ -61,10 +61,10 @@ class CommentsAdapter(private val comments: MutableList<HackerNewsItemModel>) : 
 
         val rvListComments = baseHolder.rvListComments
         if (rvListComments.adapter == null) {
-            rvListComments.adapter = CommentsAdapter(comments[position].children!!.toMutableList())
+            rvListComments.adapter = CommentsAdapter(comments[position].children.toMutableList())
             rvListComments.isNestedScrollingEnabled = false
         } else {
-            (rvListComments.adapter as CommentsAdapter).updateData(comments[position].children!!.toMutableList())
+            (rvListComments.adapter as CommentsAdapter).updateData(comments[position].children.toMutableList())
         }
 
     }
