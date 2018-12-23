@@ -9,8 +9,8 @@ android {
         applicationId "com.app.cellstudio.hacker_news_app"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 2
+        versionName "1.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -19,8 +19,22 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            debuggable true
             minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        staging {
+            initWith debug
+            minifyEnabled true
+            shrinkResources true
+            matchingFallbacks = ['debug', 'release']
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -37,24 +51,26 @@ dependencies {
     ext.RX_LIFE_CYCLE_VERSION = '2.2.2'
     ext.PAPER_PARCEL_VERSION = '2.0.1'
     ext.SHIMMER_VERSION = '0.3.0'
-    ext.FLEXBOX_VERSION = '0.3.0'
+    ext.MOCKITO_VERSION = '2.23.4'
+    ext.JUNIT_VERSION = '4.12'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.android.support:appcompat-v7:28.0.0"
     implementation "com.android.support:design:28.0.0"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
+    implementation "com.android.support:support-v4:28.0.0"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    // JUnit and Mockito - Unit Testing
+    testImplementation "org.mockito:mockito-core:${MOCKITO_VERSION}"
+    testImplementation "junit:junit:${JUNIT_VERSION}"
+
+    // Retrofit
     implementation "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
     implementation "com.google.code.gson:gson:${GSON_VERSION}"
     implementation "com.squareup.retrofit2:adapter-rxjava2:${RETROFIT_VERSION}"
     implementation "com.squareup.retrofit2:converter-gson:${RETROFIT_CONVERTER_GSON_VERSION}"
-
-    // RX - for composing asynchronous and event-based programs using observable sequences
-    implementation "io.reactivex.rxjava2:rxandroid:${RX_ANDROID_VERSION}"
 
     // OkHttp - HTTP Client which is used by Retrofit
     implementation "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}"
@@ -78,7 +94,4 @@ dependencies {
 
     // Shimmer
     implementation "com.facebook.shimmer:shimmer:${SHIMMER_VERSION}"
-
-    // Flexbox - brings the similar capabilities of CSS Flexible Box Layout Module to Android
-    implementation "com.google.android:flexbox:${FLEXBOX_VERSION}"
 }

@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface HackerNewsFirebaseService {
     @GET(ApiRoutes.TOP_STORIES)
-    fun getTopStories(@Query("orderBy") orderBy : String = "\"\$key\"" ,
+    fun getTopStories(@Query("orderBy") orderBy : String,
                 @Query("limitToFirst") pageSize: Int
     ): Observable<List<Int>>
 }

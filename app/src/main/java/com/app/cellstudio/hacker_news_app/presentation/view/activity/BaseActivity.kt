@@ -1,5 +1,6 @@
 package com.app.cellstudio.hacker_news_app.presentation.view.activity
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.view.View
@@ -34,7 +35,7 @@ abstract class BaseActivity : RxAppCompatActivity() {
         return scheduler.io()
     }
 
-    protected fun getToolbarTitle(): String {
+    protected open fun getToolbarTitle(): String {
         return ""
     }
 
@@ -53,6 +54,7 @@ abstract class BaseActivity : RxAppCompatActivity() {
     }
 
     protected fun onSetContentView() {
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         if (getLayoutResource() != 0) {
             setContentView(getLayoutResource())
         }
@@ -61,7 +63,6 @@ abstract class BaseActivity : RxAppCompatActivity() {
     protected open fun onBindView() {
         if (toolbar != null) {
             toolbar.title = getToolbarTitle()
-            toolbar.setOnClickListener { onSetToolbarClick() }
             setSupportActionBar(toolbar)
         }
     }
@@ -74,7 +75,4 @@ abstract class BaseActivity : RxAppCompatActivity() {
     }
 
     protected open fun onGetInputData(savedInstanceState: Bundle?) {}
-
-    protected fun onSetToolbarClick() {}
-
 }
