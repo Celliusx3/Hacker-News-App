@@ -19,10 +19,6 @@ class BaseApplication : Application() {
                 .build()
             applicationComponent.inject(this)
         }
-        initializeSDKs()
-    }
-
-    private fun initializeSDKs() {
     }
 
     fun getApplicationComponent() : ApplicationComponent {

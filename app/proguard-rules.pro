@@ -19,3 +19,14 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# OKIO
+-keep class okio.** { *; }
+-dontwarn okio.**
+
+-dontwarn javax.annotation.**
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+# GSON parse
+-keep class com.app.cellstudio.hacker_news_app.interactor.model.** { *; }
+-keep class com.app.cellstudio.hacker_news_app.data.entities.** { *; }

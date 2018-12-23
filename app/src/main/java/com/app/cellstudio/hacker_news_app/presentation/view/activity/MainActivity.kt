@@ -2,27 +2,26 @@ package com.app.cellstudio.hacker_news_app.presentation.view.activity
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.Toast
 import com.app.cellstudio.androidkotlincleanboilerplate.di.modules.MainModule
 import com.app.cellstudio.hacker_news_app.R
-import com.app.cellstudio.hacker_news_app.databinding.ActivityMainBinding
 import com.app.cellstudio.hacker_news_app.interactor.viewmodel.MainViewModel
 import com.app.cellstudio.hacker_news_app.presentation.BaseApplication
 import com.app.cellstudio.hacker_news_app.presentation.adapter.TopStoriesAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
+
+
 class MainActivity : BaseActivity() {
 
     @Inject
     lateinit var mainViewModel: MainViewModel
 
-    private lateinit var binding: ActivityMainBinding
     private var topStoriesAdapter: TopStoriesAdapter? = null
-    private var topStories: List<Int>? = null
 
     override fun getLayoutResource(): Int {
         return R.layout.activity_main
@@ -30,6 +29,10 @@ class MainActivity : BaseActivity() {
 
     override fun getRootView(): View {
         return rlMain
+    }
+
+    override fun getToolbarTitle(): String {
+        return getString(R.string.app_name)
     }
 
     override fun onInject() {
@@ -41,23 +44,38 @@ class MainActivity : BaseActivity() {
 
     override fun onBindData(view: View?, savedInstanceState: Bundle?) {
         super.onBindData(view, savedInstanceState)
+        this.getIsLoading()
+        this.getTopStories()
 
-        val disposable = mainViewModel.getTopStories()
+        srlMainContainer.setOnRefreshListener {
+            this.getTopStories()
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        subscribeSelectedStory()
+    }
+
+    private fun getIsLoading() {
+        val disposable = mainViewModel.getLoading()
             .compose(bindToLifecycle())
-            .subscribeOn(getIoScheduler())
             .observeOn(getUiScheduler())
             .subscribe {
-                this.topStories = it
-                setupMoviesList(it)
+                srlMainContainer.isRefreshing = it
+                rvTopStories.visibility = if (it) View.GONE else View.VISIBLE
             }
 
         compositeDisposable.add(disposable)
-
-        binding = DataBindingUtil.bind(view!!)!!
-        binding.viewModel = mainViewModel
     }
 
-    private fun setupMoviesList(topStories: List<Int>) {
+    private fun setupStoriesList(topStories: List<Int>) {
+        if (topStoriesAdapter != null) {
+            topStoriesAdapter!!.updateData(topStories)
+            return
+        }
+
         val layoutManager = LinearLayoutManager(this,  LinearLayoutManager.VERTICAL, false)
         rvTopStories.layoutManager = layoutManager
         topStoriesAdapter = TopStoriesAdapter(topStories.toMutableList())
@@ -76,6 +94,35 @@ class MainActivity : BaseActivity() {
         })
         rvTopStories.adapter = topStoriesAdapter
         rvTopStories.isNestedScrollingEnabled = false
+        subscribeSelectedStory()
+    }
+
+    private fun subscribeSelectedStory() {
+        if (topStoriesAdapter == null)
+            return
+
+        val disposable = topStoriesAdapter!!.getSelectedModel()
+            .compose(bindToLifecycle())
+            .observeOn(getUiScheduler())
+            .subscribe { selectedModel ->
+                navigator.navigateToDetails(this, selectedModel)
+            }
+
+        compositeDisposable.add(disposable)
+    }
+
+    private fun getTopStories() {
+        val disposable = mainViewModel.getTopStories()
+            .compose(bindToLifecycle())
+            .subscribeOn(getIoScheduler())
+            .observeOn(getUiScheduler())
+            .subscribe ({
+                setupStoriesList(it)
+            }, {throwable: Throwable? -> throwable?.printStackTrace()
+                Toast.makeText(this, this.getText(R.string.no_articles_available), Toast.LENGTH_SHORT).show()
+            })
+
+        compositeDisposable.add(disposable)
     }
 
     companion object {

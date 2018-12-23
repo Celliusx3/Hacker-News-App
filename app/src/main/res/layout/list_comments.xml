@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="model" type="com.app.cellstudio.hacker_news_app.interactor.model.HackerNewsItemModel" />
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
+        <import type="android.view.View" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/tvCommentsDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey_600"
+            android:text = "@{model.details}"
+            tools:text = "Posted by AutoModerator • 10h"/>
+
+        <TextView
+            android:id="@+id/tvCommentsComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCommentsDetails"
+            android:textColor="@color/white"
+            android:text = "@{model.displayComments}"
+            tools:visibility="visible"
+            tools:text = "@string/dummy_text"/>
+
+        <RelativeLayout
+            android:id="@+id/rlLoadMore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCommentsComments"
+            android:layout_centerHorizontal="true"
+            android:visibility="@{model.displayLoadMoreComments? View.VISIBLE : View.GONE}"
+            android:onClick="@{listener::onClick}"
+            android:background="@drawable/selector_ripple">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:id="@+id/tvLoadMore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text = "@{model.displayChildrenComments + ` comments`}"
+                    android:textColor="@color/white"
+                    android:padding="4dp"
+                    tools:text = "1 comment"/>
+
+                <ImageView
+                    android:id="@+id/ivLoadMoreArrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tvLoadMore"
+                    android:layout_centerVertical="true"
+                    android:rotation="@{model.isCommentExpands ? 180 : 0}"
+                    android:src="@drawable/ic_arrow_down_white_24dp"
+                    android:contentDescription="@{model.displayChildrenComments}"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+        
+        <LinearLayout
+            android:id="@+id/llListComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlLoadMore"
+            android:visibility="@{model.isCommentExpands ? View.VISIBLE : View.GONE}"
+            android:paddingStart = "1dp"
+            android:orientation="horizontal"
+            tools:ignore="RtlSymmetry">
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="1dp"
+                android:background="@color/grey_600"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvListComments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:descendantFocusability="blocksDescendants"
+                tools:targetApi="lollipop" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</layout>
