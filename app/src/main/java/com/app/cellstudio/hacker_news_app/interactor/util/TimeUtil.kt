@@ -4,16 +4,15 @@ class TimeUtil {
 
     companion object {
 
-        private const val SECOND_MILLIS: Long= 1000
-        private const val MINUTE_MILLIS: Long = 60 * SECOND_MILLIS
-        private const val HOUR_MILLIS: Long = 60 * MINUTE_MILLIS
-        private const val DAY_MILLIS: Long = 24 * HOUR_MILLIS
-        private const val MONTH_MILLIS: Long = 30 * DAY_MILLIS
-        private const val YEAR_MILLIS: Long = 365 * DAY_MILLIS
+        const val SECOND_MILLIS: Long= 1000
+        const val MINUTE_MILLIS: Long = 60 * SECOND_MILLIS
+        const val HOUR_MILLIS: Long = 60 * MINUTE_MILLIS
+        const val DAY_MILLIS: Long = 24 * HOUR_MILLIS
+        const val MONTH_MILLIS: Long = 30 * DAY_MILLIS
+        const val YEAR_MILLIS: Long = 365 * DAY_MILLIS
 
-        fun getTimeAgo(time: Long): String? {
-            val now = System.currentTimeMillis()
-            val diff = now - time
+        fun getTimeAgo(now: Long, before: Long): String {
+            val diff = now - before
 
             return when {
                 diff < MINUTE_MILLIS -> "just now"

@@ -37,6 +37,7 @@ dependencies {
     ext.RX_LIFE_CYCLE_VERSION = '2.2.2'
     ext.PAPER_PARCEL_VERSION = '2.0.1'
     ext.SHIMMER_VERSION = '0.3.0'
+    ext.MOCKITO_VERSION = '2.23.4'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -47,6 +48,10 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // JUnit and Mockito - Unit Testing
+    testImplementation "org.mockito:mockito-core:${MOCKITO_VERSION}"
+
 
     implementation "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
     implementation "com.google.code.gson:gson:${GSON_VERSION}"

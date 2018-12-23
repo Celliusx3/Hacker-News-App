@@ -53,7 +53,6 @@ class DetailsActivity : BaseActivity() {
 
         val disposable = detailsViewModel.getDetailsPageModel()
             .compose(bindToLifecycle())
-            .subscribeOn(getIoScheduler())
             .observeOn(getUiScheduler())
             .subscribe {
                 setupDetailsPagerAdapter(it)

@@ -31,7 +31,7 @@ class HackerNewsItemModel: PaperParcelable {
         }
 
         if (createdAtI != null) {
-            sb.append(" • ").append(TimeUtil.getTimeAgo( createdAtI!! * 1000))
+            sb.append(" • ").append(TimeUtil.getTimeAgo( System.currentTimeMillis(), createdAtI!! * 1000))
         }
 
         if (url.isNotEmpty()) {
